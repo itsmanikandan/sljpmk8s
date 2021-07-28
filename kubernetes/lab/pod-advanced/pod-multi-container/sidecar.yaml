@@ -3,8 +3,6 @@ kind: Pod
 metadata:
   name: sidecar
 spec:
-  imagePullSecrets:
-    - name:  regcred
   volumes:
   - name: shared-logs 
     emptyDir: {}
