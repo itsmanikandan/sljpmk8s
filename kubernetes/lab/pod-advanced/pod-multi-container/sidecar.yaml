@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: sidecar
 spec:
+  imagePullSecrets:
+    - name:  regcred
   volumes:
   - name: shared-logs 
     emptyDir: {}
@@ -10,14 +12,16 @@ spec:
   - name: main-container
     image: busybox 
     command: ["/bin/sh"]
-    args: ["-c", "while true; do date >> /tmp/index-input.html; sleep 60;done"]
-    volumeMounts
+    args: ["-c", "while true; do ping google.com  >> /tmp/index-input.html; sleep 90;done"]
+    volumeMounts:
     - name: shared-logs
-      mountPath: /tmp
+      mountPath: /var/logs
   - name: sidecar-container
     image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do cat /tmp/index-input.html  >> /tmp/index-input.html; sleep 90;done"]
     ports:
       - containerPort: 80
     volumeMounts:
     - name: shared-logs
-      mountPath: /usr/share/nginx/html 
+      mountPath: /var/log
