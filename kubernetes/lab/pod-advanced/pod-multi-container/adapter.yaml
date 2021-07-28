@@ -17,7 +17,7 @@ spec:
   - name: adapter-container
     image: busybox
     command: ["/bin/sh"]
-    args: ["-c", "while true; do copy /tmp/index.html /tmp/index-output.html; sleep 5; done"]
+    args: ["-c", "while true; do cat /tmp/index.html >> /tmp/index-output.html; sleep 5; done"]
     volumeMounts:
     - name: shared-logs
       mountPath: /tmp
